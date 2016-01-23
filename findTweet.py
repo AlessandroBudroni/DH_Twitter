@@ -1,5 +1,3 @@
-/*
-
 '''
 This script find the last tweet of a specified user which has
 a particular image (url_image needed)
