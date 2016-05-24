@@ -1,6 +1,9 @@
 '''
 This script take in input three arguments
-USAGE: python3.5 getData.py 'search this' num_tweets 'ys'
+
+USAGE: 
+$ python3.5 getData.py 'topic' num_tweets 'ys'
+
 'ys' means if you want also to save the html of the tweet, otherwise just write 'yn'
 It saves the images and all the most important info about
 the last num_tweets-th tweets
@@ -24,17 +27,22 @@ def main():
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_secret)
 	 
-	api = tweepy.API(auth) # questa variabile "api" è il punto d'accesso per la maggior parte di operazioni che faremo
+	# this "api" variable is the access point for the majority of operations that the script does
+	api = tweepy.API(auth)
 	topic = str(sys.argv[1])
 	num_tweets = int(sys.argv[2])
 	print("Downloading data...\n")
-	public_tweets = tweepy.Cursor(api.search, q=topic).items(num_tweets) # Qui eseguo la ricerca degli ultimi 100 tweets sotto l'hastag 'Japan'
 
-	file_to_write = open(topic+"_data_tweets.txt","a") # Apro/Creo il file di scrittura in modalità 'appendi dopo quello che c'è scritto'
+	# Here I execute the search for the last "num_tweets" about the "topic"  
+	public_tweets = tweepy.Cursor(api.search, q=topic).items(num_tweets) 
 
-	file_to_write.write('tweetId\ttweetText\tuserId\timageId(s)\timageUrl(s)\tusername\ttimestamp\tlabel \n\n')
+	# Open/Create the file where the datas will be written
+	file_to_write = open(topic+"_data_tweets.txt","a")
 
-	#In questo for verifico tutti i tweet che ho pescato, prendo le info che mi servono e le scrivo nel file 'filetowrite'
+	# The line below is the header and has to be execute just the first time
+	#file_to_write.write('tweetId\ttweetText\tuserId\timageId(s)\timageUrl(s)\tusername\ttimestamp\tlabel \n\n')
+
+	#Here I save the datas of all the tweets that I've collected.
 	path_immagini = topic+"_immagini/"
 	if not os.path.exists(path_immagini): os.makedirs(path_immagini)
 	path_tweets = topic+"_tweets/"

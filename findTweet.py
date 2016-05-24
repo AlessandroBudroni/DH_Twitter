@@ -1,8 +1,12 @@
 '''
 This script find the last tweet of a specified user which has
 a particular image (url_image needed)
-USAGE: python3.5 findTweet.py "@user" "http://..." ""
-It saves in a appropriate directory the image and in file.txt
+
+USAGE: 
+
+$ python3.5 findTweet.py "@user" "http://..." ""
+
+It saves in a appropriate directory the image and the datas in a file .txt
 the most important information about the tweet.
 NOTE: the head of the file.txt has to be written the first time (read the code)
 '''
@@ -24,23 +28,26 @@ def main():
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_secret)
      
-    api = tweepy.API(auth) # questa variabile "api" è il punto d'accesso per la maggior parte di operazioni che faremo
+    # this "api" variable is the access point for the majority of operations that the script does
+    api = tweepy.API(auth) 
     my_user = str(sys.argv[1])
     my_image_url = str(sys.argv[2])
     topic = 'Topic_name'
     
-    # Prende gli ultimi 100 tweet e retweets dell'account '@Edgemaster'
+    # Take the last 4000 twitters from the account 
 
     new_tweets = api.user_timeline(screen_name = my_user,count=4000,include_rts=True)
 
     file_to_write = open(topic+"_tweets.txt", "a")
+
+    # The line below is the header and has to be execute just the first time
     #file_to_write.write('tweetId\ttweetText\tuserId\timageId(s)\timageUrl(s)\tusername\ttimestamp(+0000)\tlabel \n\n')
 
-    # Creiamo i path
+    # Create the path
     path_immagini = topic+"_images/"
     if not os.path.exists(path_immagini): os.makedirs(path_immagini)
 
-        # Cerco il tweet che contiene l'immagine con quell'indirizzo e, come lo trovo, salvo i dati
+        # Search for the tweet that contains the image with the link at the input, save the image and all the datas.
     found = 0
     for tweet in new_tweets:
         if found == 0:
